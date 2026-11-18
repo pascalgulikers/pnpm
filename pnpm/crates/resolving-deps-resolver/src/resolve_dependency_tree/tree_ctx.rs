@@ -4,7 +4,7 @@
 //! `workspace:` path specifiers resolved against their declaring
 //! manifest's directory.
 
-use chrono::{DateTime, Utc};
+use jiff::Timestamp;
 use pnpm_catalogs_types::Catalogs;
 use pnpm_hooks::PnpmfileHooks;
 use pnpm_patching::PatchGroupRecord;
@@ -301,7 +301,7 @@ impl TreeCtx {
     pub fn with_resolution_mode(
         mut self,
         pick_lowest_direct: bool,
-        subdep_published_by: Option<DateTime<Utc>>,
+        subdep_published_by: Option<Timestamp>,
     ) -> Self {
         self.options.direct.version.pick_lowest_version = pick_lowest_direct;
         self.options.subdep.version.pick_lowest_version = false;

@@ -4858,7 +4858,6 @@ dependencies = [
  "base64 0.23.1",
  "cargo-lock",
  "cargo-util-schemas",
- "chrono",
  "clap",
  "command-extra",
  "console",
@@ -4871,6 +4870,7 @@ dependencies = [
  "home",
  "indexmap 2.14.2",
  "insta",
+ "jiff",
  "libc",
  "miette 7.6.0",
  "mimalloc",
@@ -4953,6 +4953,7 @@ dependencies = [
  "pnpm-testing-utils",
  "pnpm-text-sanitize",
  "pnpm-text-section",
+ "pnpm-time",
  "pnpm-tool-protocol",
  "pnpm-versioning",
  "pnpm-wasm-host",
@@ -5127,15 +5128,16 @@ dependencies = [
 name = "pnpm-default-reporter"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "console",
  "insta",
+ "jiff",
  "node-semver",
  "owo-colors",
  "pnpm-config",
  "pnpm-matcher",
  "pnpm-reporter",
  "pnpm-text-sanitize",
+ "pnpm-time",
  "pretty_assertions",
  "serde_json",
 ]
@@ -5597,8 +5599,8 @@ dependencies = [
 name = "pnpm-github-actions"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "futures-util",
+ "jiff",
  "miette 7.6.0",
  "node-semver",
  "pnpm-config",
@@ -5819,16 +5821,17 @@ dependencies = [
 name = "pnpm-lockfile-verification"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "derive_more",
  "futures-util",
  "insta",
+ "jiff",
  "miette 7.6.0",
  "pnpm-diagnostics",
  "pnpm-lockfile",
  "pnpm-package-name",
  "pnpm-reporter",
  "pnpm-resolving-resolver-base",
+ "pnpm-time",
  "pnpm-wasm-host",
  "pretty_assertions",
  "serde",
@@ -5883,10 +5886,10 @@ dependencies = [
 name = "pnpm-modules-yaml"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "derive_more",
  "httpdate",
  "indexmap 2.14.2",
+ "jiff",
  "pathdiff",
  "pipe-trait",
  "pnpm-diagnostics",
@@ -6068,7 +6071,6 @@ version = "0.0.1"
 dependencies = [
  "async-recursion",
  "async-trait",
- "chrono",
  "console",
  "dashmap",
  "derive_more",
@@ -6080,6 +6082,7 @@ dependencies = [
  "httpdate",
  "indexmap 2.14.2",
  "insta",
+ "jiff",
  "miette 7.6.0",
  "mockito",
  "node-semver",
@@ -6138,6 +6141,7 @@ dependencies = [
  "pnpm-testing-utils",
  "pnpm-text-sanitize",
  "pnpm-text-section",
+ "pnpm-time",
  "pnpm-tool-protocol",
  "pnpm-wasm-host",
  "pnpm-workspace",
@@ -6461,10 +6465,11 @@ name = "pnpm-release-record"
 version = "0.0.1"
 dependencies = [
  "base64 0.23.1",
- "chrono",
  "derive_more",
  "ed25519-dalek 2.2.0",
+ "jiff",
  "percent-encoding",
+ "pnpm-time",
  "pnpm-transparency-log",
  "pretty_assertions",
  "serde",
@@ -6515,9 +6520,9 @@ version = "0.0.1"
 dependencies = [
  "async-recursion",
  "async-trait",
- "chrono",
  "derive_more",
  "futures-util",
+ "jiff",
  "miette 7.6.0",
  "node-semver",
  "pathdiff",
@@ -6611,12 +6616,12 @@ dependencies = [
 name = "pnpm-resolving-npm-resolver"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "dashmap",
  "derive_more",
  "futures-util",
  "httpdate",
  "indexmap 2.14.2",
+ "jiff",
  "libc",
  "miette 7.6.0",
  "mockito",
@@ -6635,6 +6640,7 @@ dependencies = [
  "pnpm-resolving-local-resolver",
  "pnpm-resolving-resolver-base",
  "pnpm-store-dir",
+ "pnpm-time",
  "pnpm-version-policy",
  "pnpm-wasm-host",
  "pnpm-workspace-range-resolver",
@@ -6663,14 +6669,15 @@ dependencies = [
 name = "pnpm-resolving-resolver-base"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "derive_more",
+ "jiff",
  "miette 7.6.0",
  "node-semver",
  "pnpm-lockfile",
  "pnpm-network",
  "pnpm-registry",
  "pnpm-semver-include-prerelease",
+ "pnpm-time",
  "pnpm-version-policy",
  "pretty_assertions",
  "serde",
@@ -6861,6 +6868,13 @@ version = "0.0.1"
 [[package]]
 name = "pnpm-text-section"
 version = "0.0.1"
+
+[[package]]
+name = "pnpm-time"
+version = "0.0.1"
+dependencies = [
+ "jiff",
+]
 
 [[package]]
 name = "pnpm-tool-protocol"
@@ -7089,7 +7103,6 @@ dependencies = [
  "axum 0.8.9",
  "base64 0.23.1",
  "bcrypt",
- "chrono",
  "clap",
  "dashmap",
  "derive_more",
@@ -7100,6 +7113,7 @@ dependencies = [
  "home",
  "hyper 1.12.0",
  "indexmap 2.14.2",
+ "jiff",
  "libc",
  "libsql",
  "miette 7.6.0",
@@ -7134,6 +7148,7 @@ dependencies = [
  "pnpm-store-dir",
  "pnpm-tarball",
  "pnpm-testing-utils",
+ "pnpm-time",
  "pnpm-transparency-log",
  "pnpr-auth",
  "pnpr-cargo",
@@ -7184,10 +7199,10 @@ dependencies = [
  "axum 0.8.9",
  "base64 0.23.1",
  "bcrypt",
- "chrono",
  "futures-util",
  "getrandom 0.4.3",
  "icu_normalizer",
+ "jiff",
  "libsql",
  "openidconnect",
  "p256 0.14.0",
@@ -7482,7 +7497,6 @@ dependencies = [
  "async-trait",
  "axum 0.8.9",
  "base64 0.23.1",
- "chrono",
  "futures-util",
  "getrandom 0.4.3",
  "libc",
@@ -7493,6 +7507,7 @@ dependencies = [
  "pnpm-network",
  "pnpm-package-manifest",
  "pnpm-release-record",
+ "pnpm-time",
  "pnpm-transparency-log",
  "pnpr-config",
  "pnpr-error",
@@ -7516,12 +7531,13 @@ dependencies = [
 name = "pnpr-upstream"
 version = "0.0.1"
 dependencies = [
- "chrono",
  "futures-util",
+ "jiff",
  "mockito",
  "pnpm-lockfile",
  "pnpm-network",
  "pnpm-package-manifest",
+ "pnpm-time",
  "pnpr-config",
  "pnpr-error",
  "pnpr-package-name",
