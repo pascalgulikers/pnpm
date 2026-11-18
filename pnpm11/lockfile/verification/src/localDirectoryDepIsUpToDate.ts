@@ -34,6 +34,7 @@ import {
   getVersionRange,
   isSubdirectory,
   isWorkspacePath,
+  usesInjectionSetting,
   versionSatisfies,
 } from './dependencySpec.js'
 import { recordedPeersMatch } from './recordedPeersMatch.js'
@@ -43,6 +44,7 @@ export interface LocalDirectoryDepContext {
   lockfilePackages?: PackageSnapshots
   manifestsByDir: Record<string, DependencyManifest>
   workspaceDir?: string
+  injectWorkspacePackages?: boolean
   /** The settings and hooks the lockfile was resolved with. */
   resolution?: LocalDirectoryResolution
   /**
@@ -87,6 +89,7 @@ interface DependencyOfLocalDirectoryDep {
   depName: string
   currentSpec: string
   lockfileDep: string
+  injected: boolean
 }
 
 /**
@@ -288,7 +291,7 @@ async function childIsUpToDate (
   }
   const currentSpec = resolvedChildSpec(ctx, child, walk)
   if (currentSpec == null) return false
-  if (isLocalSpec(currentSpec)) {
+  if (isLocalSpec(currentSpec) || getLocalPath(removeSuffix(lockfileDep)) != null) {
     return localChildIsUpToDate(ctx, localDep, pkgSnapshot, child, currentSpec, lockfileDep, walk)
   }
   const locked = lockedPackage(ctx, child.alias, lockfileDep)
@@ -323,7 +326,9 @@ async function localChildIsUpToDate (
   lockfileDep: string,
   walk: DirectoryWalk
 ): Promise<boolean> {
-  if (!await localSpecIsUpToDate(localDep, { depName: child.alias, currentSpec, lockfileDep })) return false
+  const injected = child.injected === true ||
+    ((currentSpec.startsWith('workspace:') || !isLocalSpec(currentSpec)) && ctx.injectWorkspacePackages === true)
+  if (!await localSpecIsUpToDate(localDep, { depName: child.alias, currentSpec, lockfileDep, injected })) return false
   // A directory child whose spec still matches can itself be stale: its own
   // dependencies may have changed without the directory moving. Links have
   // no dependency snapshot to validate, so only directory children recurse.
@@ -335,7 +340,7 @@ async function localChildIsUpToDate (
     // snapshot of its own; the workspace verifies it through its importer
     // entry. A file: child with no snapshot has an incomplete lockfile
     // entry: its own dependencies cannot be validated, so it is stale.
-    return currentSpec.startsWith('workspace:')
+    return currentSpec.startsWith('workspace:') || !isLocalSpec(currentSpec)
   }
   return localDirectoryDepIsUpToDateRec(ctx, childSnapshot, {
     ...walk,
@@ -409,8 +414,9 @@ function resolveCatalogSpec (ctx: LocalDirectoryDepContext, dep: { alias: string
 /** Whether a `link:`, `file:` or `workspace:` spec still resolves to the recorded dependency. */
 async function localSpecIsUpToDate (
   localDep: LocalDirectoryDep,
-  { depName, currentSpec, lockfileDep }: DependencyOfLocalDirectoryDep
+  { depName, currentSpec, lockfileDep, injected }: DependencyOfLocalDirectoryDep
 ): Promise<boolean> {
+  if ((usesInjectionSetting(currentSpec) || !isLocalSpec(currentSpec)) && lockfileDep.startsWith('link:') === injected) return false
   if (currentSpec.startsWith('link:')) {
     return (
       lockfileDep.startsWith('link:') &&
@@ -458,7 +464,7 @@ async function workspaceDependencyIsUpToDate (
     lockfilePath: string | null
   }
 ): Promise<boolean> {
-  if (isWorkspacePath(currentSpec.slice(10))) {
+  if (currentSpec.startsWith('workspace:') && isWorkspacePath(currentSpec.slice(10))) {
     return localPathMatches(localDep, currentSpec, lockfilePath)
   }
   const range = getVersionRange(currentSpec)

@@ -349,8 +349,15 @@ fn local_spec_satisfies(
     spec: &str,
     lockfile_dep: &pnpm_lockfile::SnapshotDepRef,
 ) -> bool {
-    super::spec_satisfies_snapshot_dep(dirs, local_dep_dir, dep_name, spec, lockfile_dep)
-        .expect("a local spec is judged")
+    super::spec_satisfies_snapshot_dep(
+        dirs,
+        local_dep_dir,
+        dep_name,
+        spec,
+        lockfile_dep.as_link_target().is_none(),
+        lockfile_dep,
+    )
+    .expect("a local spec is judged")
 }
 
 #[test]
